@@ -1,5 +1,5 @@
 const express = require('express');
-const { postProject, getAllProject,getSingleProject } = require('../controllers/projectControllers');
+const { postProject, getAllProject,getSingleProject,deleteProject,updateProject } = require('../controllers/projectControllers');
 
 
 //router
@@ -16,14 +16,10 @@ router.get('/:id',getSingleProject)
 router.post('/',postProject)
 
 //Delete a new project
-router.delete('/:id',(req,res)=>{
-    res.json({message:"delete a new project"})
-})
+router.delete('/:id',deleteProject)
 
-//post a new project
-router.patch('/:id',(req,res)=>{
-    res.json({message:"patch a new project"})
-})
+//update  a new project
+router.patch('/:id',updateProject)
 
 
 module.exports=router;
