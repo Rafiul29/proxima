@@ -3,6 +3,7 @@ const express = require("express");
 const cors=require('cors')
 const mongoose = require("mongoose");
 const projectRoutes = require("./routes/projectRoutes");
+const userRoutes=require('./routes/userRoutes')
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use("/api/projects", projectRoutes);
-
+app.use("/api/user",userRoutes)
 //mongodb
 mongoose.set('strictQuery', true);
 mongoose
