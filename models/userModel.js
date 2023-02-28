@@ -26,25 +26,45 @@ userSchema.statics.signup = async function (email, password) {
   }
 
   //lowercase .uppercase,number symbol, 8 char
-
   if (!validator.isStrongPassword(password)) {
     throw Error(
       "Password is not strong, try to combine uppercase ,lowercase, number ,symbol, and minium 8 chars"
     );
   }
+
   const exist = await this.findOne({ email });
   if (exist) {
     throw Error("email already used");
   }
+  
   //encrypt password or hasing
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
   //create on user
-
   const user = await this.create({ email, password: hash });
 
   return user;
 };
+
+userSchema.statics.login=async function(email,password){
+     //check if the email is valid
+  if (!validator.isEmail(email)) {
+    throw Error("Invalid email");
+  }
+
+  const user=await this.findOne({email})
+  if(!user){
+    throw Error("incorrect email")
+  }
+
+  const match=await bcrypt.compare(password,user.password)
+  if(!match){
+    throw Error('Incorrect password')
+  }
+
+  return user
+
+}
 
 module.exports = mongoose.model("User", userSchema);
